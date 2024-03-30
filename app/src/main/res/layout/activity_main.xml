@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/read"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="读取" />
+
+    <Button
+        android:id="@+id/write"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="写入" />
+
+    <Button
+        android:id="@+id/writeImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="写入图片" />
+
+    <Button
+        android:id="@+id/writeDCIM"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="写入照片" />
+
+    <Button
+        android:id="@+id/readImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="读取图片" />
+
+    <Button
+        android:id="@+id/readImageByName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="根据名称筛选图片" />
+
+    <Button
+        android:id="@+id/delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="删除" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</androidx.appcompat.widget.LinearLayoutCompat>
