@@ -14,7 +14,11 @@ import android.util.Log
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.drawable.toBitmap
 import com.example.myapplication.databinding.ActivityMainBinding
+import java.io.File
+import java.io.FileOutputStream
 import java.lang.StringBuilder
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -31,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.write.setOnClickListener {
-            createFile()
+            createFile1()
         }
 
         binding.writeImage.setOnClickListener {
@@ -66,15 +70,16 @@ class MainActivity : AppCompatActivity() {
                 binding.imageView.setImageBitmap(bitmapList[count%bitmapList.size])
             }
         }
-
-
     }
 
+    /**
+     * 创建文件到download目录
+     */
     private fun createFile() {
         val values = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, "sdf.txt")
-            put(MediaStore.MediaColumns.MIME_TYPE, "text/plain")
-            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + "/Test1")
+            put(MediaStore.MediaColumns.DISPLAY_NAME, "sdf.txt")// 文件名
+            put(MediaStore.MediaColumns.MIME_TYPE, "text/plain")// 文件类型
+            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + "/Test1")// 文件保存相对路径
         }
 
         val uri = contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values)
@@ -84,15 +89,32 @@ class MainActivity : AppCompatActivity() {
             } ?: run {
                 Log.e("uri", "Failed to create file")
             }
-
         }
     }
 
+    private fun createFile1(){
+        val path = "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)}/Test"
+        val directory = File(path)
+        if(!directory.exists()){
+            directory.mkdirs()
+        }
+        val file = File(directory,"test.txt")
+        FileOutputStream(file).use { outputStream->outputStream.write("Hello world!".toByteArray()) }
+    }
+
+    /**
+     * 创建图片到Picture目录
+     */
     private fun createImage() {
         val values = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, "test")
             put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
             put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/Test1")
+
+            // 图片专用参数
+            put(MediaStore.Images.ImageColumns.DESCRIPTION,"描述测试")
+//            put(MediaStore.Images.ImageColumns.DATE_TAKEN,Date().timeStamp())
+
         }
         val uri: Uri? = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
         val bitmap = AppCompatResources.getDrawable(this,R.drawable.img1)?.toBitmap()
@@ -189,7 +211,6 @@ class MainActivity : AppCompatActivity() {
                 val id = cursor.getLong(idColumn)
                 val imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
 
-                // 修正：使用正确的imageUri来加载图片
                 val bitmap = contentResolver.openInputStream(imageUri)?.use { inputStream ->
                     BitmapFactory.decodeStream(inputStream)
                 }
@@ -201,6 +222,11 @@ class MainActivity : AppCompatActivity() {
 
         Log.e("图片数量", result.size.toString())
         return result
+    }
+
+    fun Date.timeStamp(): String {
+        val formatter = SimpleDateFormat("yyyyMMddHHMMSS")
+        return formatter.format(this)
     }
 
 }
