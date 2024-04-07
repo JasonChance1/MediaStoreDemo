@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.myapplication"
-        minSdk 29
+        minSdk 28
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -49,4 +49,6 @@ dependencies {
 
     // https://github.com/Blankj/AndroidUtilCode
     implementation 'com.blankj:utilcodex:1.31.1'
+
+    implementation 'com.airbnb.android:lottie:6.4.0'
 }
